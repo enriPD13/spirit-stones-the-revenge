@@ -1,0 +1,11 @@
+{
+  "name": "spirit-stones-remastered",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Puzzle-RPG 'connetti le gemme' con eroi, mondi, negozio ed evoluzione. Solo browser, nessun build.",
+  "scripts": {
+    "dev": "npx --yes serve -l 5173 .",
+    "start": "npx --yes serve -l 5173 ."
+  },
+  "license": "SEE LICENSE IN LICENSE"
+}

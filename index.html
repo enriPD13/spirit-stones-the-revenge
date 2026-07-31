@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Spiriti di Brikeaz</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+<div id="bg"></div><canvas id="motes"></canvas>
+  <h1>Spiriti di Brikeaz</h1>
+  <div class="sub" id="subtitle">connetti · attiva · libera il regno</div>
+  <div class="stage">
+
+    <div class="screen on" id="screen-map">
+      <div class="topbar"><span class="gold"><svg class="cur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#ffd85f" stroke="#9c6b16" stroke-width="1.6"/><circle cx="12" cy="12" r="5.6" fill="none" stroke="#c99a2e" stroke-width="1.2"/><path d="M12 8.4l1.2 2.5 2.7.3-2 1.8.6 2.6-2.5-1.3-2.5 1.3.6-2.6-2-1.8 2.7-.3z" fill="#a9741c"/></svg> <span id="goldMap">0</span></span><div style="display:flex;gap:6px"><button class="btn ghost sm" id="resetBtn">Reset</button><button class="btn ghost" id="toTeamBtn">Squadra ▸</button></div></div>
+      <div id="worlds"></div>
+    </div>
+
+    <div class="screen" id="screen-team">
+      <div class="topbar"><button class="btn ghost sm" id="teamBack">◂ Mappa</button><span class="gold"><svg class="cur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#ffd85f" stroke="#9c6b16" stroke-width="1.6"/><circle cx="12" cy="12" r="5.6" fill="none" stroke="#c99a2e" stroke-width="1.2"/><path d="M12 8.4l1.2 2.5 2.7.3-2 1.8.6 2.6-2.5-1.3-2.5 1.3.6-2.6-2-1.8 2.7-.3z" fill="#a9741c"/></svg> <span id="goldTeam">0</span></span><button class="btn ghost sm" id="shopBtn">🛒 Bottega</button></div>
+      <div class="partybar"><span>HP schiera: <b id="pHp">—</b></span><span id="pColors">—</span></div>
+      <div class="roster" id="roster"></div>
+    </div>
+
+    <div class="screen" id="screen-battle">
+      <div class="hud">
+        <span class="hud-stage" id="hudStage">STAGE 1/1</span>
+        <div class="hud-hp"><div class="bar"><i class="partyfill" id="partyHp"></i></div><span id="partyHpTxt">—</span></div>
+        <button class="hud-pause" id="pauseBtn">◂</button>
+      </div>
+      <div class="arena" id="arena">
+        <div class="arena-floor"></div>
+        <div class="side party" id="team"></div>
+        <div class="side foes" id="enemies"></div>
+      </div>
+      <div class="board-wrap"><div class="board" id="board"></div><svg id="linkLayer"></svg><div id="fxLayer"></div></div>
+      <div class="legend"><span>Le bonus <b>non hanno colore</b>: passaci sopra per attivarle</span><span>⚔️ diagonali</span><span>💣 esplode intorno</span><span>🏹 frecce a caso</span><span>🧪 cura</span><span>🌀 cambia colore</span><span>⬢ ostacolo</span></div>
+    </div>
+  </div>
+
+  <div class="combo" id="comboText"></div>
+  <div class="overlay" id="overlay"><div class="card2"><h2 id="ovTitle"></h2><p id="ovText"></p><div class="lvups" id="ovLvups"></div><button class="btn" id="ovBtn"></button></div></div>
+  <div class="overlay" id="modal"><div class="card2"><div id="modalBody"></div><button class="btn ghost" id="modalClose" style="margin-top:12px">Chiudi</button></div></div>
+
+  <script src="js/persistence.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/dom.js"></script>
+  <script src="js/assets.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/battle.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
