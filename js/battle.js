@@ -1,5 +1,5 @@
-/* battle.js — Combattimento: risoluzione catena, cascata armi, effetti, nemici, abilita, danni.
- * Spirit Stones: Remastered — codice e grafica originali. */
+/* battle.js — Combattimento: risoluzione catena, cascata armi (cadi-poi-attiva), effetti, nemici, danni.
+ * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
 
 /* ===== BATTLE ===== */
 function beginBattle(){teamHeroes=selected.map(id=>{const h=HEROES.find(x=>x.id===id);return {ref:h,color:h.color,face:h.face,name:h.name,atk:effAtk(h),hp:effHp(h),skill:COLORS[h.color].skill};});
@@ -36,18 +36,24 @@ function dealColorDamage(count,mult){const idx=targetIdx;const per=count.map((n,
   teamHeroes.forEach((tt,i)=>{if(count[tt.color]>0){const el=teamEl.children[i];if(el){el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),260);}}});
   if(total>0){damageEnemy(idx,total);renderEnemies();const entries=[];per.forEach((d,i)=>{if(d>0)entries.push({dmg:d,color:cvar(i)});});damageFloats(idx,entries);enemyPanelShake();}return total;}
 function endMove(){updatePartyBar();advanceClocks();checkState();busy=false;}
-function resolveChain(){busy=true;const K=(r,c)=>r+','+c;
+function resolveChain(){busy=true;
   const chainCells=chain.map(p=>({r:p.r,c:p.c,cell:grid[p.r][p.c]}));
-  const chainSet=new Set(chainCells.map(o=>K(o.r,o.c)));
-  const bonuses=chainCells.filter(o=>o.cell.t==='special'||o.cell.t==='super').map(o=>({r:o.r,c:o.c,kind:o.cell.kind}));
+  const bonusCells=chainCells.filter(o=>o.cell.t==='special'||o.cell.t==='super');
   const baseCount=[0,0,0,0];chainCells.forEach(o=>{if(o.cell.t==='class')baseCount[o.cell.el]++;});
   const totalCount=baseCount.slice();
-  chainCells.forEach(o=>{const el=cellEl(o.r,o.c);if(el)el.classList.add('pop');});
-  setTimeout(()=>{ // FASE 1: rimuovi la selezione, cadono le nuove
-    chainSet.forEach(k=>{const[r,c]=k.split(',').map(Number);grid[r][c]=null;});applyGravity();render(true);
+  // scoppiano solo i colori/portali selezionati; le bonus restano e CADRANNO
+  chainCells.forEach(o=>{if(o.cell.t!=='special'&&o.cell.t!=='super'){const el=cellEl(o.r,o.c);if(el)el.classList.add('pop');}});
+  bonusCells.forEach(o=>{o.cell._fire=true;});
+  setTimeout(()=>{ // FASE 1: rimuovi i colori, poi tutto (bonus incluse) cade
+    chainCells.forEach(o=>{if(o.cell.t!=='special'&&o.cell.t!=='super')grid[o.r][o.c]=null;});
+    applyGravity();render(true);
     dealColorDamage(baseCount,1);
-    if(!bonuses.length){addCharge(totalCount);renderTeam();endMove();return;}
-    setTimeout(()=>activateWeapons(bonuses,totalCount),400); // FASE 2 dopo la caduta
+    if(!bonusCells.length){addCharge(totalCount);renderTeam();endMove();return;}
+    setTimeout(()=>{ // FASE 2: solo DOPO che le bonus sono cadute, attivano il potere
+      const seed=[];
+      for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){const cell=grid[r][c];if(cell&&cell._fire){delete cell._fire;seed.push({r,c,kind:cell.kind});}}
+      activateWeapons(seed,totalCount);
+    },460);
   },240);}
 function activateWeapons(seed,totalCount){const K=(r,c)=>r+','+c;const cleared=new Set();const activated=new Set();let heal=0,combo=0,firedCount=0;
   seed.forEach(b=>activated.add(K(b.r,b.c)));

@@ -1,5 +1,5 @@
-/* data.js — Dati/config: costanti, curve statistiche, eroi, equipaggiamento, mondi/stage, stato.
- * Spirit Stones: Remastered — codice e grafica originali. */
+/* data.js — Dati/config: costanti, eroi, equip, mondi/stage, stato.
+ * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
 
 /* ===== DATA dai file APK ===== */
 const MAXLV=30;

@@ -1,5 +1,5 @@
-/* ui.js — UI fuori battaglia: mappa, roster/squadra, dettaglio eroe, negozio, evoluzione.
- * Spirit Stones: Remastered — codice e grafica originali. */
+/* ui.js — UI fuori battaglia: mappa, squadra, dettaglio eroe, negozio, evoluzione.
+ * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
 
 /* ===== MAP ===== */
 const globalIndex=(w,s)=>w*STAGES_PER_WORLD+s;

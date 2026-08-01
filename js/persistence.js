@@ -1,5 +1,5 @@
-/* persistence.js — Persistenza: salvataggio/caricamento (window.storage -> localStorage -> memoria).
- * Spirit Stones: Remastered — codice e grafica originali. */
+/* persistence.js — Persistenza (window.storage -> localStorage -> memoria).
+ * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
 
 /* ===== persistenza: window.storage → localStorage → memoria ===== */
 const Store={mem:{},
