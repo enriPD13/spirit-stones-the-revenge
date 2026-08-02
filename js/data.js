@@ -1,5 +1,5 @@
-/* data.js — Dati/config: costanti, eroi, equip, 25 mondi, oggetti/bottino, stato.
- * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
+/* data.js -- 4 guerrieri-elemento (3 fasi) + extra sbloccabili, 25 mondi, oggetti, stato.
+ * Spirit Stones: Remastered -- codice originale; immagini fornite dall'autore. */
 
 /* ===== DATA dai file APK ===== */
 const MAXLV=30;
@@ -73,18 +73,21 @@ function makeStage(w,s){const boss=(s===STAGES_PER_WORLD-1),world=WORLDS[w],subC
 /* ===== STATE ===== */
 let HEROES=[
   {id:1,name:'Pyra',color:0,grade:2,face:'🛡️',level:5,exp:0,equip:{weapon:null,acc:null}},
-  {id:2,name:'Brand',color:0,grade:1,face:'🔥',level:3,exp:0,equip:{weapon:null,acc:null}},
   {id:3,name:'Vesper',color:1,grade:2,face:'🎭',level:4,exp:0,equip:{weapon:null,acc:null}},
-  {id:4,name:'Nyx',color:1,grade:1,face:'🗡️',level:3,exp:0,equip:{weapon:null,acc:null}},
   {id:5,name:'Sylwen',color:2,grade:2,face:'🏹',level:5,exp:0,equip:{weapon:null,acc:null}},
-  {id:6,name:'Fenn',color:2,grade:1,face:'🍃',level:2,exp:0,equip:{weapon:null,acc:null}},
-  {id:7,name:'Lumen',color:3,grade:2,face:'🔮',level:4,exp:0,equip:{weapon:null,acc:null}},
-  {id:8,name:'Cael',color:3,grade:1,face:'💧',level:3,exp:0,equip:{weapon:null,acc:null}},
+  {id:7,name:'Marea',color:3,grade:2,face:'🔮',level:4,exp:0,equip:{weapon:null,acc:null}},
+  {id:9,name:'Draconero',color:0,grade:1,face:'🐉',level:1,exp:0,equip:{weapon:null,acc:null},locked:true,spr:'bDragon',from:2},
+  {id:10,name:'Treantide',color:2,grade:1,face:'🌳',level:1,exp:0,equip:{weapon:null,acc:null},locked:true,spr:'bTreant',from:0},
+  {id:11,name:'Orcaptano',color:1,grade:1,face:'👹',level:1,exp:0,equip:{weapon:null,acc:null},locked:true,spr:'eOrc',from:1},
+  {id:12,name:'Slimeone',color:3,grade:1,face:'🫧',level:1,exp:0,equip:{weapon:null,acc:null},locked:true,spr:'eSlime',from:3},
+  {id:13,name:'Scimmia',color:0,grade:1,face:'🐒',level:1,exp:0,equip:{weapon:null,acc:null},spr:'scimmia'},
 ];
 let unlocked=1, cleared=new Set(), gold=3000, selected=[1,3,5,7], owned={}, inv={};
-function saveState(){Store.set('ss_save',{v:2,unlocked,cleared:[...cleared],gold,selected:[...selected],owned,inv,heroes:HEROES.map(h=>({id:h.id,level:h.level,exp:h.exp,grade:h.grade,equip:h.equip}))});}
+let heroUnlocked=new Set();
+function avail(h){return !h.locked||heroUnlocked.has(h.id);}
+function saveState(){Store.set('ss_save',{v:2,unlocked,cleared:[...cleared],gold,selected:[...selected],owned,inv,heroUnlocked:[...heroUnlocked],heroes:HEROES.map(h=>({id:h.id,level:h.level,exp:h.exp,grade:h.grade,equip:h.equip}))});}
 async function loadState(){const s=await Store.get('ss_save');if(!s)return;
-  unlocked=s.unlocked??1;cleared=new Set(s.cleared||[]);gold=s.gold??gold;selected=s.selected||selected;owned=s.owned||{};inv=s.inv||{};
+  unlocked=s.unlocked??1;cleared=new Set(s.cleared||[]);gold=s.gold??gold;selected=s.selected||selected;owned=s.owned||{};inv=s.inv||{};heroUnlocked=new Set(s.heroUnlocked||[]);
   (s.heroes||[]).forEach(hs=>{const h=HEROES.find(x=>x.id===hs.id);if(h){h.level=hs.level;h.exp=hs.exp;h.grade=hs.grade;h.equip=hs.equip||{weapon:null,acc:null};}});}
 /* ===== equip helpers ===== */
 function equipAtk(h){const w=h.equip&&h.equip.weapon?EQUIP[h.equip.weapon]:null;return w?(w.atk||0):0;}

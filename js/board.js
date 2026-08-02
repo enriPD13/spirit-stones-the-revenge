@@ -1,5 +1,5 @@
-/* board.js — Motore puzzle: tabellone a colonne, gravita, catene, pattern (spada full-line).
- * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
+/* board.js -- Motore puzzle: nido dape, gravita, catene, pattern.
+ * Spirit Stones: Remastered -- codice originale; immagini fornite dall'autore. */
 
 function genCell(){const r=Math.random();if(r<0.03)return{t:'portal'};if(battle&&(battle.s>0||battle.w>0)&&r<0.06)return{t:'stone'};if(r<0.16){return{t:'special',kind:['sword','bomb','bow','potion'][Math.floor(Math.random()*4)]};}return{t:'class',el:rnd4()};}
 function newGrid(){grid=[];for(let r=0;r<ROWS;r++){grid.push([]);for(let c=0;c<COLS;c++)grid[r][c]=genCell();}}

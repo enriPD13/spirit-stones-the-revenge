@@ -1,5 +1,5 @@
-/* ui.js — UI fuori battaglia: mappa, squadra, dettaglio, negozio (compra/vendi), evoluzione.
- * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
+/* ui.js -- UI: mappa, squadra, dettaglio, negozio, Album (carta+sprite).
+ * Spirit Stones: Remastered -- codice originale; immagini fornite dall'autore. */
 
 /* ===== MAP ===== */
 const globalIndex=(w,s)=>w*STAGES_PER_WORLD+s;
@@ -12,13 +12,13 @@ function renderMap(){renderHUD();setTheme('map');const cont=$('worlds');cont.inn
   cont.querySelectorAll('.node:not(.locked)').forEach(n=>n.addEventListener('click',()=>{const w=+n.dataset.w,s=+n.dataset.s;if(globalIndex(w,s)>unlocked)return;pendingStage={w,s};showScreen('team');renderRoster();}));}
 /* ===== TEAM ===== */
 function renderRoster(){renderHUD();const r=$('roster');r.innerHTML='';
-  HEROES.forEach(h=>{const col=COLORS[h.color],selIdx=selected.indexOf(h.id),need=expToNext(h),xpPct=Math.min(100,h.exp/need*100);
+  HEROES.filter(avail).forEach(h=>{const col=COLORS[h.color],selIdx=selected.indexOf(h.id),need=expToNext(h),xpPct=Math.min(100,h.exp/need*100);
     const d=document.createElement('div');d.className='hcard'+(selIdx>=0?' sel':'');
     d.innerHTML=`<div class="cframe ${col.key}">${selIdx>=0?`<div class="selnum">${selIdx+1}</div>`:''}
       <div class="cbadge ${col.key}">${elemIcon(col.key)}</div>
       <div class="cstar">${'★'.repeat(h.grade)}${('<span class=cdim>★</span>').repeat(3-h.grade)}</div>
       <div class="cname">${h.name}</div>
-      <div class="cart">${heroFig(col.key,h.grade)}</div>
+      <div class="cart">${heroFig(col.key,h.grade,h.spr)}</div>
       <div class="csub">${col.name} · Lv ${h.level}</div>
       <div class="cbar"><span class="cikn hp">${effHp(h)}</span><div class="cbart"><i class="hpf" style="width:${Math.min(100,effHp(h)/1300*100)}%"></i></div></div>
       <div class="cbar"><span class="cikn atk">${effAtk(h)}</span><div class="cbart"><i class="atf" style="width:${Math.min(100,effAtk(h)/230*100)}%"></i></div></div>
@@ -69,6 +69,14 @@ function unequip(h,slot){const cur=h.equip[slot];if(cur){owned[cur]=(owned[cur]|
 function potenzia(h){if(h.level>=MAXLV||gold<200)return;gold-=200;h.exp+=60;while(h.level<MAXLV&&h.exp>=expToNext(h)){h.exp-=expToNext(h);h.level++;}saveState();renderHUD();renderHero();}
 function evolvi(h){const cost=1500*h.grade;if(h.level<MAXLV||h.grade>=3||gold<cost)return;gold-=cost;h.grade++;h.level=1;h.exp=0;saveState();renderHUD();renderHero();}
 /* ===== SHOP ===== */
+function heroCard(h,grade){if(h.spr)return heroFig(COLORS[h.color].key,grade,h.spr);const el=['fuoco','luce','terra','acqua'][h.color];const src=IMGCARD[el+grade];return src?`<img class="fig card" src="${src}" alt="">`:heroFig(COLORS[h.color].key,grade);}
+function openAlbum(){renderAlbum();$('modal').classList.add('show');}
+function renderAlbum(){let html=`<h2>📖 Album Eroi</h2><div class="albumgrid">`;
+  HEROES.forEach(h=>{const av=avail(h);const col=COLORS[h.color];
+    if(!av){html+=`<div class="albumcard locked"><div class="albw">?</div><div class="albn">??? <small>sconfiggi un boss per sbloccarlo</small></div></div>`;return;}
+    let g='';for(let k=1;k<=3;k++){g+=`<div class="albg${k===h.grade?' cur':''}"><div class="albcard">${heroCard(h,k)}</div><div class="albsp">${heroFig(col.key,k,h.spr)}</div><span>Grado ${k}</span></div>`;}
+    html+=`<div class="albumcard"><div class="albn" style="color:${cvar(h.color)}">${h.name} <small style="color:var(--ink-dim)">${col.name} · Lv ${h.level}</small></div><div class="albrow">${g}</div></div>`;});
+  html+='</div>';$('modalBody').innerHTML=html;}
 function openShop(){renderShop();$('modal').classList.add('show');}
 function renderShop(){let html=`<h2>🛒 Bottega</h2><div class="statline"><span>${COIN} Oro disponibile</span><b>${gold}</b></div><div class="shopgrid">`;
   const groups=[['Armi — Guerriero',0],['Armi — Ladro',1],['Armi — Arciere',2],['Armi — Mago',3],['Accessori',null]];

@@ -1,5 +1,5 @@
-/* battle.js — Combattimento: catena, cascata cadi-poi-attiva, effetti, nemici, danni, ricompense.
- * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
+/* battle.js -- Combattimento: catena, cascata, effetti, ricompense.
+ * Spirit Stones: Remastered -- codice originale; immagini fornite dall'autore. */
 
 /* ===== BATTLE ===== */
 function beginBattle(){teamHeroes=selected.map(id=>{const h=HEROES.find(x=>x.id===id);return {ref:h,color:h.color,face:h.face,name:h.name,atk:effAtk(h),hp:effHp(h),skill:COLORS[h.color].skill};});
@@ -9,7 +9,7 @@ function beginBattle(){teamHeroes=selected.map(id=>{const h=HEROES.find(x=>x.id=
   newGrid();render();renderTeam();loadSub(0);updatePartyBar();setTheme(String(battle.w));playing=true;busy=false;showScreen('battle');}
 function loadSub(i){battle.subIndex=i;enemies=battle.subs[i].map(e=>({...e,max:e.hp,alive:true,charge:e.every}));targetIdx=0;$('hudStage').textContent=`${battle.name} · ${i+1}/${battle.subs.length}`;renderEnemies();}
 function renderTeam(){teamEl.innerHTML='';teamHeroes.forEach((t,i)=>{const col=COLORS[t.color];const pct=Math.min(100,charge[i]/t.skill.max*100);const d=document.createElement('div');d.className='unit hero '+col.key+(ready[i]?' ready':'');
-  d.innerHTML=`${ready[i]?('<div class="sbadge amu">'+icSkill()+'</div>'):''}<div class="stand"><div class="ring ring-${col.key}"></div><div class="ava">${heroFig(col.key,t.ref.grade)}</div></div><div class="uname">${t.name}</div><div class="ubar"><i class="sgauge-fill" style="width:${pct}%"></i></div>`;
+  d.innerHTML=`${ready[i]?('<div class="sbadge amu">'+icSkill()+'</div>'):''}<div class="stand"><div class="ring ring-${col.key}"></div><div class="ava">${heroFig(col.key,t.ref.grade,t.ref.spr)}</div></div><div class="uname">${t.name}</div><div class="ubar"><i class="sgauge-fill" style="width:${pct}%"></i></div>`;
   d.addEventListener('click',()=>useSkill(i));teamEl.appendChild(d);});}
 function addCharge(count){teamHeroes.forEach((t,i)=>{const n=count[t.color];if(n>0&&!ready[i]){charge[i]+=n;if(charge[i]>=t.skill.max){charge[i]=t.skill.max;ready[i]=true;}}});}
 function useSkill(i){if(!ready[i]||!playing||busy)return;const t=teamHeroes[i],s=t.skill;
@@ -103,11 +103,12 @@ function rollLoot(w){const gr=Math.random();let mult,glabel='';
 function winStage(){playing=false;const {w,s}=battle;const firstClear=!cleared.has(w+'-'+s);cleared.add(w+'-'+s);
   const gi=globalIndex(w,s);if(gi+1>unlocked&&gi+1<=GLOBAL)unlocked=Math.max(unlocked,gi+1);
   const loot=rollLoot(w);gold+=loot.gold;loot.items.forEach(it=>{inv[it.id]=(inv[it.id]||0)+1;});
+  let newHero=null;if(s===STAGES_PER_WORLD-1&&firstClear){const nh=HEROES.find(h=>h.locked&&h.from===w&&!heroUnlocked.has(h.id));if(nh){heroUnlocked.add(nh.id);newHero=nh;}}
   const lvups=[];
   teamHeroes.forEach(t=>{const h=t.ref;if(h.level>=MAXLV)return;h.exp+=battle.reward;while(h.level<MAXLV&&h.exp>=expToNext(h)){h.exp-=expToNext(h);h.level++;lvups.push(`${h.name} → Lv ${h.level}`);}});
   saveState();const done=cleared.size>=GLOBAL;
   showOverlay(done?'Brikeaz è salva':'Stage completato!',`+${battle.reward} EXP a ogni eroe`,[],done?'Rigioca':'Alla mappa',()=>{hideOverlay();showScreen('map');renderMap();});
-  const el=$('ovLvups');if(el){let h='';if(loot.glabel)h+=`<div style="color:#ffd45e;font-weight:700;margin-bottom:3px">🏆 ${loot.glabel}</div>`;h+=`<div style="margin-bottom:5px;font-size:14px">${COIN} <b>+${loot.gold}</b> oro</div>`;if(loot.items.length){h+='<div class="lootbox">';loot.items.forEach(it=>{h+=`<div class="lootrow" style="color:${RARCOL[it.rarity]}"><span>${it.icon} ${it.name}</span><span style="opacity:.65;font-size:10px">${it.rarity} · vendi ${it.sell}</span></div>`;});h+='</div>';}if(lvups.length)h+='<div style="margin-top:7px;color:#bfe6c9">'+lvups.map(x=>'⭐ '+x).join('<br>')+'</div>';el.innerHTML=h;}}
+  const el=$('ovLvups');if(el){let h='';if(newHero){const cf=COLORS[newHero.color].key;h+=`<div style="text-align:center;margin-bottom:9px;padding:8px;border-radius:12px;background:linear-gradient(180deg,rgba(122,208,255,.18),rgba(0,0,0,0));border:1px solid rgba(122,208,255,.4)"><div style="color:#7ad0ff;font-family:'Cinzel',serif;font-weight:900;font-size:15px">✦ NUOVO EROE! ✦</div><div style="width:74px;height:78px;margin:3px auto;display:flex;align-items:flex-end;justify-content:center">${heroFig(cf,1,newHero.spr)}</div><div style="color:#f4e9c8;font-family:'Cinzel',serif">${newHero.name}</div></div>`;}if(loot.glabel)h+=`<div style="color:#ffd45e;font-weight:700;margin-bottom:3px">🏆 ${loot.glabel}</div>`;h+=`<div style="margin-bottom:5px;font-size:14px">${COIN} <b>+${loot.gold}</b> oro</div>`;if(loot.items.length){h+='<div class="lootbox">';loot.items.forEach(it=>{h+=`<div class="lootrow" style="color:${RARCOL[it.rarity]}"><span>${it.icon} ${it.name}</span><span style="opacity:.65;font-size:10px">${it.rarity} · vendi ${it.sell}</span></div>`;});h+='</div>';}if(lvups.length)h+='<div style="margin-top:7px;color:#bfe6c9">'+lvups.map(x=>'⭐ '+x).join('<br>')+'</div>';el.innerHTML=h;}}
 function showCombo(t){const c=$('comboText');c.innerHTML=t.replace(/\n/g,'<br>');c.classList.remove('show');void c.offsetWidth;c.classList.add('show');}
 function showOverlay(t,x,lvups,btn,cb){$('ovTitle').textContent=t;$('ovText').textContent=x;$('ovLvups').innerHTML=(lvups&&lvups.length)?('⭐ '+lvups.join('<br>⭐ ')):'';const b=$('ovBtn');b.textContent=btn;b.onclick=cb;$('overlay').classList.add('show');}
 function hideOverlay(){$('overlay').classList.remove('show');}

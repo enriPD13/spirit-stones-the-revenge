@@ -1,4 +1,1 @@
-{ "name":"spirit-stones-remastered","version":"0.4.0","private":true,
-  "description":"Puzzle-RPG connetti-le-gemme: 25 mondi, ricompense a rarità, eroi evolutivi.",
-  "scripts":{"dev":"npx --yes serve -l 5173 .","start":"npx --yes serve -l 5173 ."},
-  "license":"SEE LICENSE IN LICENSE" }
+{ "name":"spirit-stones-remastered","version":"0.7.0","private":true,"scripts":{"dev":"npx --yes serve -l 5173 ."},"license":"SEE LICENSE IN LICENSE" }

@@ -1,5 +1,5 @@
-/* main.js — Ingresso: input, navigazione, init.
- * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
+/* main.js -- Ingresso: input, navigazione, init.
+ * Spirit Stones: Remastered -- codice originale; immagini fornite dall'autore. */
 
 boardEl.style.gridTemplateColumns='repeat(7,1fr)';
 boardEl.addEventListener('pointerdown',e=>{if(!playing||busy)return;const p=cellAt(e.clientX,e.clientY);if(p){e.preventDefault();startChain(p);}});

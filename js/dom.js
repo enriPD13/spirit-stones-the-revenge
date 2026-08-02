@@ -1,5 +1,5 @@
-/* dom.js — DOM, schermate, tema, sfondi/navbar, impostazioni+aggiornamento, particelle.
- * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
+/* dom.js -- DOM, schermate, tema, sfondi/navbar, impostazioni.
+ * Spirit Stones: Remastered -- codice originale; immagini fornite dall'autore. */
 
 /* ===== battle-time ===== */
 let grid=[],enemies=[],targetIdx=0,partyHp=0,partyMax=0,playing=false,busy=false;
@@ -19,11 +19,11 @@ async function forceUpdate(){try{if('caches'in window){const ks=await caches.key
 function wireSettings(){const sb=document.getElementById('settingsBtn');if(sb)sb.onclick=()=>{const v=document.getElementById('verLabel');if(v)v.textContent=VERSION;document.getElementById('setOverlay').classList.add('show');};const sc=document.getElementById('setClose');if(sc)sc.onclick=()=>document.getElementById('setOverlay').classList.remove('show');const fu=document.getElementById('forceUpdateBtn');if(fu)fu.onclick=forceUpdate;}
 function applyImageAssets(){
   const s=document.createElement('style');
-  s.textContent=`#screen-map,#screen-team{background-size:cover;background-position:center;border-radius:16px;padding:12px 10px;}#screen-map{background-image:linear-gradient(rgba(6,4,14,.5),rgba(6,4,14,.72)),url(${IMG3.bgMap});}#screen-team{background-image:linear-gradient(rgba(6,4,14,.5),rgba(6,4,14,.72)),url(${IMG3.bgTeam});}`;
+  s.textContent=`#screen-map,#screen-team{background-size:cover;background-position:center;border-radius:16px;padding:12px 10px 96px;}#screen-map{background-image:linear-gradient(rgba(6,4,14,.5),rgba(6,4,14,.72)),url(${IMG3.bgMap});}#screen-team{background-image:linear-gradient(rgba(6,4,14,.5),rgba(6,4,14,.72)),url(${IMG3.bgTeam});}`;
   document.head.appendChild(s);
   const nb=document.getElementById('navbar');
-  if(nb){nb.innerHTML=`<button class="navb" data-s="map"><img src="${IMG3.navMap}"><span>Mappa</span></button><button class="navb" data-s="team"><img src="${IMG3.navTeam}"><span>Squadra</span></button><button class="navb" data-s="shop"><img src="${IMG3.navShop}"><span>Bottega</span></button>`;
-    nb.querySelectorAll('.navb').forEach(b=>b.addEventListener('click',()=>{const s=b.dataset.s;if(s==='map'){showScreen('map');renderMap();}else if(s==='team'){showScreen('team');renderRoster();}else{openShop();}}));}
+  if(nb){nb.innerHTML=`<button class="navb" data-s="map"><img src="${IMG3.navMap}"><span>Mappa</span></button><button class="navb" data-s="team"><img src="${IMG3.navTeam}"><span>Squadra</span></button><button class="navb" data-s="shop"><img src="${IMG3.navShop}"><span>Bottega</span></button><button class="navb" data-s="album"><img src="${IMG3.navHome}"><span>Album</span></button>`;
+    nb.querySelectorAll('.navb').forEach(b=>b.addEventListener('click',()=>{const s=b.dataset.s;if(s==='map'){showScreen('map');renderMap();}else if(s==='team'){showScreen('team');renderRoster();}else if(s==='shop'){openShop();}else{openAlbum();}}));}
 }
 function setTheme(k){document.body.dataset.theme=k;const a=document.getElementById('arena');if(a){const bg=(k==='map'?null:IMG3.bgArena);a.style.backgroundImage=bg?`linear-gradient(rgba(8,5,18,.22),rgba(8,5,18,.6)),url(${bg})`:'';a.style.backgroundSize='cover';a.style.backgroundPosition='center';}}
 function applyImageSkins(){const s=document.createElement('style');s.textContent=`.c-warrior{background:url(${IMG.stoneRed}) center/cover no-repeat!important}.c-thief{background:url(${IMG.stoneGold}) center/cover no-repeat!important}.c-archer{background:url(${IMG.stoneGreen}) center/cover no-repeat!important}.c-mage{background:url(${IMG.stoneBlue}) center/cover no-repeat!important}.cell.c-warrior .ic,.cell.c-thief .ic,.cell.c-archer .ic,.cell.c-mage .ic{display:none}.c-warrior::before,.c-thief::before,.c-archer::before,.c-mage::before{opacity:.28}`;document.head.appendChild(s);}

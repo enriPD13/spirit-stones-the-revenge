@@ -209,7 +209,7 @@
   .navb{flex:1;max-width:120px;display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;cursor:pointer;color:var(--ink-dim);font-family:'Cinzel',serif;font-size:9px;letter-spacing:.03em;}
   .navb img{width:40px;height:40px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(0,0,0,.55));transition:transform .12s;}
   .navb:active img{transform:scale(.9);} .navb:hover img{transform:translateY(-2px) scale(1.06);} .navb:hover{color:var(--gold-2);}
-  body{padding-bottom:74px;}
+  body{padding-bottom:96px;}
 
   .party .ava .fig{transform:scaleX(-1);}  /* eroi: rivolti a DESTRA */
   .foes .ava .fig{transform:scaleX(1);}     /* nemici: rivolti a SINISTRA */
@@ -228,3 +228,17 @@
 
   .lootbox{display:flex;flex-direction:column;gap:3px;margin:4px 0;}
   .lootrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:rgba(255,255,255,.05);border-radius:7px;padding:4px 8px;font-family:'Cinzel',serif;font-size:12px;}
+
+  .albumgrid{display:flex;flex-direction:column;gap:8px;max-height:62vh;overflow-y:auto;padding-right:4px;}
+  .albumcard{border-radius:12px;padding:8px 9px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);}
+  .albumcard.locked{opacity:.55;text-align:center;display:flex;align-items:center;gap:10px;justify-content:center;}
+  .albn{font-family:'Cinzel',serif;font-size:12px;margin-bottom:6px;} .albn small{font-size:9px;font-weight:400;}
+  .albrow{display:flex;gap:8px;justify-content:center;}
+.albg{width:74px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px;border-radius:10px;background:rgba(255,255,255,.04);}
+  .albg.cur{background:rgba(232,195,122,.12);box-shadow:0 0 0 2px var(--gold);}
+  .albcard{width:64px;height:92px;border-radius:7px;overflow:hidden;box-shadow:inset 0 0 8px rgba(0,0,0,.5),0 2px 5px rgba(0,0,0,.5);}
+  .albcard .card{width:100%;height:100%;object-fit:cover;display:block;}
+  .albsp{width:62px;height:52px;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(circle at 50% 28%,#2f2946,#130f1e);border-radius:7px;box-shadow:inset 0 0 8px rgba(0,0,0,.6);}
+  .albsp .fig{width:50px;height:52px;}
+  .albg span{font-size:8px;color:var(--ink-dim);}
+  .albw{font-size:34px;color:var(--ink-dim);}
