@@ -1,4 +1,4 @@
-/* dom.js — DOM, helper, schermate, tema, sfondi/skin, navbar, particelle.
+/* dom.js — DOM, schermate, tema, sfondi/navbar, impostazioni+aggiornamento, particelle.
  * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
 
 /* ===== battle-time ===== */
@@ -14,6 +14,9 @@ function renderHUD(){$('goldMap').textContent=gold;$('goldTeam').textContent=gol
 /* init */
 
 
+const VERSION='0.3.0';
+async function forceUpdate(){try{if('caches'in window){const ks=await caches.keys();await Promise.all(ks.map(k=>caches.delete(k)));}if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();await Promise.all(rs.map(r=>r.unregister()));}}catch(e){}const u=location.href.split('#')[0].split('?')[0];location.replace(u+'?v='+Date.now());}
+function wireSettings(){const sb=document.getElementById('settingsBtn');if(sb)sb.onclick=()=>{const v=document.getElementById('verLabel');if(v)v.textContent=VERSION;document.getElementById('setOverlay').classList.add('show');};const sc=document.getElementById('setClose');if(sc)sc.onclick=()=>document.getElementById('setOverlay').classList.remove('show');const fu=document.getElementById('forceUpdateBtn');if(fu)fu.onclick=forceUpdate;}
 function applyImageAssets(){
   const s=document.createElement('style');
   s.textContent=`#screen-map,#screen-team{background-size:cover;background-position:center;border-radius:16px;padding:12px 10px;}#screen-map{background-image:linear-gradient(rgba(6,4,14,.5),rgba(6,4,14,.72)),url(${IMG3.bgMap});}#screen-team{background-image:linear-gradient(rgba(6,4,14,.5),rgba(6,4,14,.72)),url(${IMG3.bgTeam});}`;

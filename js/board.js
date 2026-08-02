@@ -1,4 +1,4 @@
-/* board.js — Motore puzzle: griglia a colonne (nido d'ape), gravita, catene, pattern.
+/* board.js — Motore puzzle: tabellone a colonne, gravita, catene, pattern (spada full-line).
  * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
 
 function genCell(){const r=Math.random();if(r<0.03)return{t:'portal'};if(battle&&(battle.s>0||battle.w>0)&&r<0.06)return{t:'stone'};if(r<0.16){return{t:'special',kind:['sword','bomb','bow','potion'][Math.floor(Math.random()*4)]};}return{t:'class',el:rnd4()};}
@@ -31,8 +31,8 @@ function endChain(){dragging=false;clearVisual();const cc=chain.filter(p=>grid[p
 function patternCells(kind,r,c){const out=[];const push=(rr,cc)=>{if(rr>=0&&cc>=0&&rr<ROWS&&cc<COLS)out.push([rr,cc]);};
   if(kind==='bomb'){for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++)if(dr||dc)push(r+dr,c+dc);}
   else if(kind==='dynamite'){for(let dr=-2;dr<=2;dr++)for(let dc=-2;dc<=2;dc++)if(dr||dc)push(r+dr,c+dc);}
-  else if(kind==='sword'){for(let d=1;d<ROWS;d++){push(r+d,c+d);push(r-d,c-d);push(r+d,c-d);push(r-d,c+d);}}
-  else if(kind==='doublesword'){for(let d=1;d<ROWS;d++){push(r+d,c+d);push(r-d,c-d);push(r+d,c-d);push(r-d,c+d);push(r+d,c);push(r-d,c);push(r,c+d);push(r,c-d);}}return out;}
+  else if(kind==='sword'){for(let d=1;d<=Math.max(ROWS,COLS);d++){push(r+d,c+d);push(r-d,c-d);push(r+d,c-d);push(r-d,c+d);}}
+  else if(kind==='doublesword'){for(let d=1;d<=Math.max(ROWS,COLS);d++){push(r+d,c+d);push(r-d,c-d);push(r+d,c-d);push(r-d,c+d);push(r+d,c);push(r-d,c);push(r,c+d);push(r,c-d);}}return out;}
 function cellEl(r,c){return boardEl.querySelector(`.cell[data-r="${r}"][data-c="${c}"]`);}
 let fallMap={};
 function applyGravity(){fallMap={};for(let c=0;c<COLS;c++){let write=ROWS-1;for(let r=ROWS-1;r>=0;r--){if(grid[r][c]!==null){if(write!==r){grid[write][c]=grid[r][c];grid[r][c]=null;}fallMap[write+','+c]=r;write--;}}let above=-1;for(let r=write;r>=0;r--){grid[r][c]=genCell();fallMap[r+','+c]=above;above--;}}}

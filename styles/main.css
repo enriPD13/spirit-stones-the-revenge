@@ -162,7 +162,7 @@
   @keyframes sflash{0%{opacity:.95}100%{opacity:0}}
   .board-wrap.impact{animation:impact .42s ease;} @keyframes impact{0%{transform:scale(1)}28%{transform:scale(1.03)}55%{transform:scale(.992)}100%{transform:scale(1)}}
   .fx-shock{width:32px;height:32px;border-radius:50%;border:4px solid rgba(255,255,255,.92);box-shadow:0 0 26px #fff,inset 0 0 14px #fff;animation:fxshock .58s ease-out forwards;}
-  @keyframes fxshock{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(6.5)}}
+  @keyframes fxshock{0%{opacity:1;transform:translate(-50%,-50%) scale(.3)}100%{opacity:0;transform:translate(-50%,-50%) scale(9)}}
   .fx-spark{width:6px;height:6px;border-radius:50%;box-shadow:0 0 9px currentColor;animation:fxspark .58s ease-out forwards;}
   @keyframes fxspark{0%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy)))}}
 
@@ -211,4 +211,20 @@
   .navb:active img{transform:scale(.9);} .navb:hover img{transform:translateY(-2px) scale(1.06);} .navb:hover{color:var(--gold-2);}
   body{padding-bottom:74px;}
 
-  .foe .ava .fig{transform:scaleX(-1);}
+  .party .ava .fig{transform:scaleX(-1);}  /* eroi: rivolti a DESTRA */
+  .foes .ava .fig{transform:scaleX(1);}     /* nemici: rivolti a SINISTRA */
+
+  .cell.hit{z-index:8;box-shadow:0 0 0 4px var(--hc),0 0 20px var(--hc),0 0 40px var(--hc)!important;animation:hitp .34s ease-out;}
+  @keyframes hitp{0%{transform:scale(1)}45%{transform:scale(1.3);filter:brightness(1.9) saturate(1.4)}100%{transform:scale(1.12)}}
+  .cell.armed{z-index:9;box-shadow:0 0 0 4px #fff,0 0 22px #fff,0 0 42px #ffd21e!important;animation:armedp .5s ease-in-out infinite;}
+  @keyframes armedp{0%,100%{transform:scale(1.06)}50%{transform:scale(1.24);filter:brightness(1.7)}}
+
+  .unit.bossunit{width:104px;z-index:2;}
+  .unit.bossunit .ava{width:96px;height:100px;}
+  .unit.bossunit .stand{width:96px;height:92px;}
+  .unit.bossunit .uname{font-size:11px;color:#ffd45e;text-shadow:0 0 8px rgba(255,120,60,.6);}
+  .unit.bossunit .ubar.big{width:84px;}
+  .unit.bossunit .ava .fig{filter:drop-shadow(0 4px 6px rgba(0,0,0,.6)) drop-shadow(0 0 10px rgba(255,120,60,.35));}
+
+  .lootbox{display:flex;flex-direction:column;gap:3px;margin:4px 0;}
+  .lootrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:rgba(255,255,255,.05);border-radius:7px;padding:4px 8px;font-family:'Cinzel',serif;font-size:12px;}

@@ -1,4 +1,4 @@
-/* ui.js — UI fuori battaglia: mappa, squadra, dettaglio eroe, negozio, evoluzione.
+/* ui.js — UI fuori battaglia: mappa, squadra, dettaglio, negozio (compra/vendi), evoluzione.
  * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
 
 /* ===== MAP ===== */
@@ -18,7 +18,7 @@ function renderRoster(){renderHUD();const r=$('roster');r.innerHTML='';
       <div class="cbadge ${col.key}">${elemIcon(col.key)}</div>
       <div class="cstar">${'★'.repeat(h.grade)}${('<span class=cdim>★</span>').repeat(3-h.grade)}</div>
       <div class="cname">${h.name}</div>
-      <div class="cart">${heroFig(col.key,HAIR[h.id])}</div>
+      <div class="cart">${heroFig(col.key,h.grade)}</div>
       <div class="csub">${col.name} · Lv ${h.level}</div>
       <div class="cbar"><span class="cikn hp">${effHp(h)}</span><div class="cbart"><i class="hpf" style="width:${Math.min(100,effHp(h)/1300*100)}%"></i></div></div>
       <div class="cbar"><span class="cikn atk">${effAtk(h)}</span><div class="cbart"><i class="atf" style="width:${Math.min(100,effAtk(h)/230*100)}%"></i></div></div>
@@ -76,6 +76,9 @@ function renderShop(){let html=`<h2>🛒 Bottega</h2><div class="statline"><span
     Object.entries(EQUIP).filter(([k,e])=>color===null?e.slot==='acc':(e.slot==='weapon'&&e.color===color)).forEach(([k,e])=>{
       const stat=e.slot==='weapon'?`+${e.atk} ATK`:`+${e.hp} HP`;const oc=owned[k]?` (hai ${owned[k]})`:'';
       html+=`<div class="opt"><span>${e.name} <span class="st">${stat}${oc}</span></span><button class="btn sm" data-buy="${k}" ${gold<e.price?'disabled':''}>${e.price}${COIN}</button></div>`;});});
-  html+=`</div>`;$('modalBody').innerHTML=html;
+  html+=`</div>`;
+  const ids=Object.keys(inv);if(ids.length){html+=`<div class="h" style="color:var(--gold-dim);font-family:'Cinzel',serif;font-size:11px;margin-top:12px">🎒 Zaino — vendi oggetti</div><div class="shopgrid">`;ids.forEach(id=>{const it=ITEMS.find(x=>x.id===id);if(!it)return;html+=`<div class="opt"><span style="color:${RARCOL[it.rarity]}">${it.icon} ${it.name} <span class="st">×${inv[id]}</span></span><button class="btn sm" onclick="sellItem('${id}')">Vendi ${it.sell}</button></div>`;});html+='</div>';}
+  $('modalBody').innerHTML=html;
   $('modalBody').querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buy(b.dataset.buy));}
 function buy(key){const e=EQUIP[key];if(gold<e.price)return;gold-=e.price;owned[key]=(owned[key]||0)+1;saveState();renderHUD();renderShop();}
+function sellItem(id){if(!inv[id])return;const it=ITEMS.find(x=>x.id===id);if(!it)return;gold+=it.sell;inv[id]--;if(inv[id]<=0)delete inv[id];saveState();renderHUD();renderShop();}

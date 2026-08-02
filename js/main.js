@@ -13,4 +13,4 @@ $('pauseBtn').onclick=()=>{playing=false;showScreen('map');renderMap();};
 $('shopBtn').onclick=openShop;
 $('modalClose').onclick=()=>{$('modal').classList.remove('show');renderRoster();};
 $('resetBtn').onclick=()=>{if(confirm('Azzerare tutti i progressi salvati?')){Store.del('ss_save');location.reload();}};
-(async()=>{await loadState();initMotes();applyImageAssets();renderHUD();renderMap();showScreen('map');})();
+(async()=>{await loadState();initMotes();applyImageAssets();wireSettings();renderHUD();renderMap();showScreen('map');})();

@@ -1,4 +1,4 @@
-/* data.js — Dati/config: costanti, eroi, equip, mondi/stage, stato.
+/* data.js — Dati/config: costanti, eroi, equip, 25 mondi, oggetti/bottino, stato.
  * Spirit Stones: Remastered — codice originale; immagini fornite dall'autore. */
 
 /* ===== DATA dai file APK ===== */
@@ -27,8 +27,44 @@ const WORLDS=[
   {name:'Foresta Marcia',em:'🌲',pool:[['Blightling','👹'],['Rotmaw','🐗'],['Sporeling','🍄'],['Thornback','🦔']]},
   {name:'Palude Cupa',em:'🕸️',pool:[['Gloomfang','🦇'],['Mirewyrm','🐛'],['Bogling','🐸'],['Cinderwing','🐦‍⬛']]},
   {name:'Trono Corrotto',em:'🔥',pool:[['Wraith','👻'],['Golem','🗿'],['Imp','😈'],['Ashmaw','🐉']]},
+  {name:'Cripte Gelide',em:'🧊',pool:[['Gelidonte','🧟'],['Brivido','❄️'],['Ossoghiaccio','💀'],['Nevemorsa','🐺']]},
+  {name:'Dune Ardenti',em:'🏜️',pool:[['Scarabeo','🪲'],['Sabbiere','🌵'],['Serpe','🐍'],['Sfinge','🦁']]},
+  {name:'Abisso Sommerso',em:'🌊',pool:[['Anguilla','🐟'],['Kraken','🦑'],['Sirena','🧜'],['Murena','🐡']]},
+  {name:'Picchi Tempestosi',em:'⛈️',pool:[['Arpia','🦅'],['Grifone','🦤'],['Fulmineo','⚡'],['Nembo','☁️']]},
+  {name:'Fossa dei Dannati',em:'🕳️',pool:[['Segugio','🐕'],['Diavolo','😈'],['Larva','🐛'],['Tormento','👺']]},
+  {name:'Giardino Velenoso',em:'☠️',pool:[['Vischio','🌿'],['Fungoso','🍄'],['Spinardo','🌵'],['Tossina','🧪']]},
+  {name:"Cittadella d'Ossa",em:'🦴',pool:[['Scheletro','💀'],['Necrofago','🧟'],['Lich','👻'],['Teschione','☠️']]},
+  {name:'Fornace Infernale',em:'🔥',pool:[['Magmide','🌋'],['Cenerino','🔥'],['Braciere','🧨'],['Salamandra','🦎']]},
+  {name:'Palazzo di Cristallo',em:'💎',pool:[['Golem','🗿'],['Prismide','🔷'],['Riflesso','🪞'],['Cristallino','💠']]},
+  {name:'Foresta Spettrale',em:'🌫️',pool:[['Ombra','🌑'],['Fauno','🐐'],['Volpe','🦊'],['Sussurro','🍃']]},
+  {name:'Rovine Sepolte',em:'🏛️',pool:[['Guardiano','🗿'],['Mummia','🧟'],['Scarabone','🪲'],['Custode','🛡️']]},
+  {name:'Nido dei Draghi',em:'🐲',pool:[['Draghetto','🐉'],['Vipera','🐍'],['Ignaro','🦎'],['Wyvern','🦖']]},
+  {name:'Landa Corrotta',em:'🌋',pool:[['Corruttore','👹'],['Piaga','🦠'],['Fetido','🐗'],['Marciume','🪱']]},
+  {name:'Torre Arcana',em:'🔮',pool:[['Evocatore','🧙'],['Familio','🐈‍⬛'],['Runa','🪬'],['Spettro','👻']]},
+  {name:'Ghiacciaio Eterno',em:'🏔️',pool:[['Yeti','🦍'],['Gelo','❄️'],['Orso','🐻‍❄️'],['Cristallo','🧊']]},
+  {name:'Mare di Sabbia',em:'🏜️',pool:[['Verme','🪱'],['Predone','🗡️'],['Sciacallo','🐕'],['Idolo','🗿']]},
+  {name:'Caverne Eco',em:'🕯️',pool:[['Pipistrello','🦇'],['Ragno','🕷️'],['Strisciante','🐛'],['Trogloditа','🦧']]},
+  {name:'Cielo Infranto',em:'🌩️',pool:[['Caduto','😇'],['Nube','☁️'],['Saetta','⚡'],['Tempesta','🌪️']]},
+  {name:'Regno dei Morti',em:'⚰️',pool:[['Reietto','🧟'],['Banshee','👻'],['Corvo','🐦‍⬛'],['Sepolto','💀']]},
+  {name:'Vulcano Primordiale',em:'🌋',pool:[['Titano','🗿'],['Colata','🔥'],['Fenice','🐦‍🔥'],['Colosso','🦣']]},
+  {name:'Trono del Vuoto',em:'🕳️',pool:[['Vuoto','🌀'],['Divoratore','👾'],['Eco','🔊'],['Annichilo','⚫']]},
+  {name:'Apocalisse',em:'💥',pool:[['Cavaliere','🐴'],['Bestia','🐲'],['Flagello','☄️'],['Fine','🔚']]},
 ];
 const STAGES_PER_WORLD=6, GLOBAL=WORLDS.length*STAGES_PER_WORLD, BOSS={name:'Custode Corrotto',sprite:'👁️'};
+const RARCOL={'comune':'#cdd6e6','non comune':'#6bd6a0','raro':'#c79bff','leggendario':'#ffd45e'};
+const ITEMS=[
+ {id:'erba',name:'Erba curativa',icon:'🌿',rarity:'comune',sell:25},
+ {id:'cuoio',name:'Cuoio consunto',icon:'🟫',rarity:'comune',sell:40},
+ {id:'ferro',name:'Lingotto di ferro',icon:'⛏️',rarity:'comune',sell:60},
+ {id:'pozione',name:'Pozione minore',icon:'🧪',rarity:'comune',sell:45},
+ {id:'cristallo',name:'Cristallo grezzo',icon:'🔷',rarity:'non comune',sell:140},
+ {id:'runa',name:'Runa antica',icon:'🪬',rarity:'non comune',sell:190},
+ {id:'argento',name:'Argento puro',icon:'⚪',rarity:'non comune',sell:250},
+ {id:'gemma',name:'Gemma dello Spirito',icon:'💎',rarity:'raro',sell:680},
+ {id:'reliquia',name:'Reliquia sacra',icon:'📿',rarity:'raro',sell:950},
+ {id:'corona',name:'Corona del Drago',icon:'👑',rarity:'leggendario',sell:3200},
+ {id:'astro',name:'Frammento astrale',icon:'🌟',rarity:'leggendario',sell:4800},
+];
 function makeStage(w,s){const boss=(s===STAGES_PER_WORLD-1),world=WORLDS[w],subCount=boss?1:(s>=3?3:2),subs=[];
   for(let sub=0;sub<subCount;sub++){
     if(boss){subs.push([{name:w===2?BOSS.name:world.name+' Signore',sprite:BOSS.sprite,hp:Math.round(2600+w*2200+s*300),dmg:Math.round(240+w*160),every:2}]);}
@@ -45,10 +81,10 @@ let HEROES=[
   {id:7,name:'Lumen',color:3,grade:2,face:'🔮',level:4,exp:0,equip:{weapon:null,acc:null}},
   {id:8,name:'Cael',color:3,grade:1,face:'💧',level:3,exp:0,equip:{weapon:null,acc:null}},
 ];
-let unlocked=1, cleared=new Set(), gold=3000, selected=[1,3,5,7], owned={};
-function saveState(){Store.set('ss_save',{v:2,unlocked,cleared:[...cleared],gold,selected:[...selected],owned,heroes:HEROES.map(h=>({id:h.id,level:h.level,exp:h.exp,grade:h.grade,equip:h.equip}))});}
+let unlocked=1, cleared=new Set(), gold=3000, selected=[1,3,5,7], owned={}, inv={};
+function saveState(){Store.set('ss_save',{v:2,unlocked,cleared:[...cleared],gold,selected:[...selected],owned,inv,heroes:HEROES.map(h=>({id:h.id,level:h.level,exp:h.exp,grade:h.grade,equip:h.equip}))});}
 async function loadState(){const s=await Store.get('ss_save');if(!s)return;
-  unlocked=s.unlocked??1;cleared=new Set(s.cleared||[]);gold=s.gold??gold;selected=s.selected||selected;owned=s.owned||{};
+  unlocked=s.unlocked??1;cleared=new Set(s.cleared||[]);gold=s.gold??gold;selected=s.selected||selected;owned=s.owned||{};inv=s.inv||{};
   (s.heroes||[]).forEach(hs=>{const h=HEROES.find(x=>x.id===hs.id);if(h){h.level=hs.level;h.exp=hs.exp;h.grade=hs.grade;h.equip=hs.equip||{weapon:null,acc:null};}});}
 /* ===== equip helpers ===== */
 function equipAtk(h){const w=h.equip&&h.equip.weapon?EQUIP[h.equip.weapon]:null;return w?(w.atk||0):0;}
